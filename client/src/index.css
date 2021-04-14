@@ -309,7 +309,9 @@ aside {
   font-family: var(--textFont);
 }
 .field-form input[type="password"],
+.field-form input[type="password2"],
 .field-form input[type="email"],
+.field-form input[type="user_name"],
 .field-form input[type="text"] {
   border: 1px solid #e1e1e1;
   padding: 1rem;
