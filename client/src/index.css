@@ -4,6 +4,8 @@
   --gris2: #2f3848;
   --gris3: #1a202d;
   --negro: #000000;
+  --pink: #f1bcbcea;
+  --pinkHover: #f8a7a7ea;
   --headingFont: "Raleway", sans-serif;
   --textFont: "Roboto", sans-serif;
 }
@@ -73,8 +75,14 @@ a {
 .btn-primary:hover {
   background: var(--gris3);
 }
-.btn-secundary {
+.btn-secondary {
   background-color: var(--gris1);
+}
+.btn-delete {
+  background-color: var(--pink);
+}
+.btn-delete:hover {
+  background-color: var(--pinkHover);
 }
 .btn-block {
   display: block;
@@ -105,7 +113,7 @@ a {
   }
 }
 
-/* BARRA LATERAL */
+/* SIDE BAR */
 aside {
   padding: 3rem;
 }
@@ -137,7 +145,7 @@ aside {
   display: flex;
   justify-content: space-between;
   background-color: var(--gris2);
-  padding: 4rem;
+  padding: 3rem;
 }
 .name-user {
   color: var(--blanco);
@@ -244,12 +252,12 @@ aside {
 .msg:hover {
   cursor: default;
 }
-.complete,
+.done,
 .incorrect {
   background-color: rgba(154, 252, 154, 0.3);
   color: var(--gris3);
 }
-.incomplete {
+.undone {
   background-color: rgba(255, 178, 178, 0.4);
   color: var(--gris3);
 }

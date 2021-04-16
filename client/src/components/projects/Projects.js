@@ -1,12 +1,19 @@
 import React from "react";
+import MainMenu from "../layout/MainMenu";
 import Sidebar from "../layout/Sidebar";
+import TaskForm from "../tasks/TaskForm";
+import TasksList from "../tasks/TasksList";
 const Projects = () => {
   return (
     <div className="container-app">
       <Sidebar />
-      <div className="section-principal">
+      <div className="main-section">
+        <MainMenu />
         <main>
-          <div className="container-tasks"></div>
+          <TaskForm />
+          <div className="container-tasks">
+            <TasksList />
+          </div>
         </main>
       </div>
     </div>
