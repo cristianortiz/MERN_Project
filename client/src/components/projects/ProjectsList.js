@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import ProjectContext from "../../context/projects/projectContext";
 import SingleProject from "./SingleProject";
 
 const ProjectsList = () => {
-  //test projects array
-  const projects = [
-    { proj_name: "Project 1" },
-    { proj_name: "Project 2" },
-    { proj_name: "Project 3" },
-  ];
+  //use projectContext to acces projectState 'projects' prop initial state
+  const projects_context = useContext(ProjectContext);
+  //destructuring project_context to get projects array from projectState
+  const { projects, getProjects } = projects_context;
+
+  //get projects when ProjectsList comp is loaded trough a useEffect
+  useEffect(() => {
+    getProjects();
+  }, []);
+
+  //check if projects array is not empty
+  if (projects.length === 0) return null;
 
   return (
     <ul className="list-projects">
       {projects.map((project) => (
-        <SingleProject project={project} />
+        <SingleProject key={project.id} project={project} />
       ))}
     </ul>
   );
