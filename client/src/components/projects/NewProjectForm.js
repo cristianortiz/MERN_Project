@@ -2,34 +2,39 @@ import React, { Fragment, useState, useContext } from "react";
 import ProjectContext from "../../context/projects/projectContext";
 
 const NewProjectForm = () => {
-  //get projectState access through ProjectContext for direct acces to their props and functions
+  //get projectState direct access through ProjectContext for props and functions
   const projectsContext = useContext(ProjectContext);
   //destructuring props and functions from ProjectState using projectContext
-  const { show_form, showProjectForm } = projectsContext;
+  const { show_form, showProjectForm, addProject } = projectsContext;
 
-  //local State to handle new project input field
+  //local State to handle new project form input field
   const [project, handleProject] = useState({
-    proj_name: "",
+    proj_name: "", //name property empty in the form as initial state
   });
 
   //destructuring project local State
   const { proj_name } = project;
 
+  //handle in local state the user form inputs
   const onChangeProject = (e) => {
     handleProject({
       ...project,
       [e.target.name]: e.target.value,
     });
   };
-
+  //when user clicks the submit form button
   const onSubmitProject = (e) => {
     e.preventDefault();
-
     //validate the form
-
-    //add to state
-
-    //reset the form
+    if (proj_name === "") {
+      return;
+    }
+    //add the project data to projectState array of peojects
+    addProject(project);
+    //reset the form through local useState to form input
+    handleProject({
+      proj_name: "",
+    });
   };
 
   return (
@@ -47,7 +52,7 @@ const NewProjectForm = () => {
       {
         //if ProjectState->show_form prop is true show the new project form
         show_form ? (
-          <form onsubmit={onSubmitProject} className="form-new-project">
+          <form onSubmit={onSubmitProject} className="form-new-project">
             <input
               type="text"
               className="input-text"
