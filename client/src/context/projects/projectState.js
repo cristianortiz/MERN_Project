@@ -39,12 +39,12 @@ const ProjectState = (props) => {
     });
   };
 
-  //function to add a new project through the newproject form
+  //function to add a new project in projectState through the newproject form
   const addProject = (project) => {
     //add an id to project data
     project.id = uuidv4();
     //console.log(project.proj_name + " " + project.id);
-    //insert the project data into the projectState whit dispatch
+    //insert the project data into the projectState arrays of projects whit dispatch function
     dispatch({
       type: ADD_PROJECT,
       payload: project, //the function param is the payload of dispatcher
