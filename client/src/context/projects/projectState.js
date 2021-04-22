@@ -1,5 +1,11 @@
 import React, { useReducer } from "react";
-import { GET_PROJECTS, PROJECT_FORM, ADD_PROJECT } from "../../types";
+import {
+  GET_PROJECTS,
+  PROJECT_FORM,
+  ADD_PROJECT,
+  VALIDATE_FORM,
+  ACTIVE_PROJECT,
+} from "../../types";
 import projectContext from "./projectContext";
 import projectReducer from "./projectReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -14,8 +20,9 @@ const ProjectState = (props) => {
   const initialState = {
     //test projects array
     projects: [],
-
     show_form: false, //to show or hide the new Project form in NewProjectForm component
+    form_error: false, //to show and error msg in form validation
+    active_project: null, //id of a project flag it as active
   };
 
   //dispatch to executes actions whit useReducer hook relatives to Projects
@@ -51,15 +58,34 @@ const ProjectState = (props) => {
     });
   };
 
+  //show error when the form is validated
+  const showError = () => {
+    dispatch({
+      type: VALIDATE_FORM,
+    }); //sin payload
+  };
+
+  //if user click a name projects use their id to flag it like active
+  const activeProject = (project_id) => {
+    dispatch({
+      type: ACTIVE_PROJECT,
+      payload: project_id,
+    });
+  };
+
   //return the context provider to get access to the other components related whit Projects to projectState
   return (
     <projectContext.Provider
       value={{
         projects: state.projects, //list of projects in projectState from BD for exanple
         show_form: state.show_form, //project state prop  to toggle show/hide new form project
+        form_error: state.form_error, //toggle true false is there ir for validation error
+        active_project: state.active_project, //id of a project flag it as active
         showProjectForm, // function to handle show_form prop
         getProjects, //function to get projects from BD and populates projects list
         addProject,
+        showError,
+        activeProject,
       }}
     >
       {props.children}

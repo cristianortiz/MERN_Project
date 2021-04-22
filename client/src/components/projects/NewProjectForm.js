@@ -5,7 +5,13 @@ const NewProjectForm = () => {
   //get projectState direct access through ProjectContext for props and functions
   const projectsContext = useContext(ProjectContext);
   //destructuring props and functions from ProjectState using projectContext
-  const { show_form, showProjectForm, addProject } = projectsContext;
+  const {
+    show_form,
+    form_error,
+    showProjectForm,
+    addProject,
+    showError,
+  } = projectsContext;
 
   //local State to handle new project form input field
   const [project, handleProject] = useState({
@@ -27,9 +33,11 @@ const NewProjectForm = () => {
     e.preventDefault();
     //validate the form
     if (proj_name === "") {
+      //call to change form_error state prop in true and show an error msg
+      showError();
       return;
     }
-    //add the project data to projectState array of peojects
+    //add the project data to projectState array of projects
     addProject(project);
     //reset the form through local useState to form input
     handleProject({
@@ -67,6 +75,12 @@ const NewProjectForm = () => {
               value="Add Project"
             />
           </form>
+        ) : null
+      }
+      {
+        //show error msg if form_error state prop is true
+        form_error ? (
+          <p className="msg error">Project Name is Mandatory</p>
         ) : null
       }
     </Fragment>
