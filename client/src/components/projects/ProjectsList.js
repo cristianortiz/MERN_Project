@@ -14,7 +14,7 @@ const ProjectsList = () => {
   }, []);
 
   //check if projects array is not empty
-  if (projects.length === 0) return null;
+  if (projects.length === 0) return <p>Create a New Project</p>;
 
   return (
     <ul className="list-projects">

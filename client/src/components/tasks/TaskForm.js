@@ -1,5 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import ProjectContext from "../../context/projects/projectContext";
 const TaskForm = () => {
+  //call the context and destructuring a project selected by de user
+  const projectsContext = useContext(ProjectContext);
+  const { active_project } = projectsContext;
+  //if there ir no project selected yet
+  if (!active_project) return null;
+  const project_selected = active_project;
+
   return (
     <div className="form">
       <form>

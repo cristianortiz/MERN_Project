@@ -5,6 +5,7 @@ import {
   ADD_PROJECT,
   VALIDATE_FORM,
   ACTIVE_PROJECT,
+  DELETE_PROJECT,
 } from "../../types";
 import projectContext from "./projectContext";
 import projectReducer from "./projectReducer";
@@ -73,19 +74,27 @@ const ProjectState = (props) => {
     });
   };
 
+  //delete a project by id
+  const deleteProject = (project_id) => {
+    dispatch({
+      type: DELETE_PROJECT,
+      payload: project_id,
+    });
+  };
   //return the context provider to get access to the other components related whit Projects to projectState
   return (
     <projectContext.Provider
       value={{
         projects: state.projects, //list of projects in projectState from BD for exanple
         show_form: state.show_form, //project state prop  to toggle show/hide new form project
-        form_error: state.form_error, //toggle true false is there ir for validation error
-        active_project: state.active_project, //id of a project flag it as active
+        form_error: state.form_error, //toggle true/false if there is a form validation error
+        active_project: state.active_project, //id of a project flag it as active, after that, states the selected project data
         showProjectForm, // function to handle show_form prop
         getProjects, //function to get projects from BD and populates projects list
-        addProject,
-        showError,
-        activeProject,
+        addProject, //to add a new project into state and later in BD
+        showError, //to show error in form validation
+        activeProject, //to flag a project as active when a user click it
+        deleteProject, //delete a project from the projectState array of projects and later in BD
       }}
     >
       {props.children}

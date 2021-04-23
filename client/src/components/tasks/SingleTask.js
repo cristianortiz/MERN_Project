@@ -6,11 +6,11 @@ const SingleTask = ({ task }) => {
       <div className="state">
         {task.state ? (
           <button type="button" className="done">
-            Done
+            Complete
           </button>
         ) : (
-          <button type="button" className="undone">
-            Undone
+          <button type="button" className="pending">
+            Pending
           </button>
         )}
       </div>
