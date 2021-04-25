@@ -9,3 +9,9 @@ export const VALIDATE_FORM = "VALIDATE_FORM";
 //flag a project in active mode
 export const ACTIVE_PROJECT = "ACTIVE_PROJECT";
 export const DELETE_PROJECT = "DELETE_PROJECT";
+
+/*-------------------------------------------------------
+Types for tasks related dispatch functions---------------*/
+
+//get the list of tasks associated whit a a project id
+export const TASKS_PROJECT = "TASKS_PROJECT";

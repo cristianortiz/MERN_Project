@@ -1,11 +1,17 @@
 import React, { Fragment, useContext } from "react";
 import ProjectContext from "../../context/projects/projectContext";
+import TaskContext from "../../context/tasks/taskContext";
 import SingleTask from "./SingleTask";
 const TasksList = () => {
   //using projectContext to use their props and functions
   const projectsContext = useContext(ProjectContext);
   //destructruring active_project, deleteProject from projectcontext
   const { active_project, deleteProject } = projectsContext;
+
+  //---get taskState to use their props and functions through taskContext--
+  const taskContext = useContext(TaskContext);
+  const { tasks_project } = taskContext;
+
   //if there is no project selected or clicked previously
   if (!active_project) return <h2>Select a Project</h2>;
   //the project in which the user makes click, are flagged as active, and now is the selected to show its data
@@ -17,22 +23,14 @@ const TasksList = () => {
     deleteProject(project_selected.id);
   };
 
-  //test tasks array
-  const tasks = [
-    { task_name: "Task 1", state: true },
-    { task_name: "Task 2", state: true },
-    { task_name: "Task 3", state: false },
-    { task_name: "Task 4", state: false },
-  ];
-
   return (
     <Fragment>
       <h2>{project_selected.proj_name}</h2>
       <ul className="list-tasks">
-        {tasks.length === 0 ? (
+        {tasks_project.length === 0 ? (
           <li className="task">No Tasks Created</li>
         ) : (
-          tasks.map((task) => <SingleTask task={task} />)
+          tasks_project.map((task) => <SingleTask task={task} />)
         )}
       </ul>
       <button
