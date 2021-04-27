@@ -30,7 +30,7 @@ const TasksList = () => {
         {tasks_project.length === 0 ? (
           <li className="task">No Tasks Created</li>
         ) : (
-          tasks_project.map((task) => <SingleTask task={task} />)
+          tasks_project.map((task) => <SingleTask key={task.id} task={task} />)
         )}
       </ul>
       <button

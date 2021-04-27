@@ -15,3 +15,6 @@ export const DELETE_PROJECT = "DELETE_PROJECT";
 export const TASKS_PROJECT = "TASKS_PROJECT";
 //add a new task to a project
 export const ADD_TASK = "ADD_TASK";
+//error in task form validation
+export const VALIDATE_TASK = "VALIDATE_TASK";
+export const DELETE_TASK = "DELETE_TASK";
