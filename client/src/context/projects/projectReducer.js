@@ -23,7 +23,7 @@ export default (state, action) => {
       return {
         ...state,
         //insert the new project data into projects array in projectState
-        projects: [...state.projects, action.payload],
+        projects: [action.payload, ...state.projects],
         show_form: false, //reset show form state prop
         form_error: false, //reset previous form error msg
       };

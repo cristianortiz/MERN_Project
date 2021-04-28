@@ -6,6 +6,8 @@ import {
   TASKS_PROJECT,
   VALIDATE_TASK,
   DELETE_TASK,
+  TASK_STATE,
+  ACTIVE_TASK,
 } from "../../types";
 
 const TaskState = (props) => {
@@ -26,6 +28,7 @@ const TaskState = (props) => {
     ],
     tasks_project: null,
     error_task_form: false,
+    active_task: null,
   };
 
   //dispatch and state
@@ -61,6 +64,21 @@ const TaskState = (props) => {
       payload: id_task,
     });
   };
+  //to flag a task like complete or pending when the clicks pending or complete
+  const flagTaskState = (task) => {
+    dispatch({
+      type: TASK_STATE,
+      payload: task,
+    });
+  };
+
+  //select a task to edit it
+  const flagActiveTask = (task) => {
+    dispatch({
+      type: ACTIVE_TASK,
+      payload: task,
+    });
+  };
 
   return (
     <TaskContext.Provider
@@ -68,10 +86,13 @@ const TaskState = (props) => {
         tasks: state.tasks, //all the tasks created
         tasks_project: state.tasks_project, //tasks of a specific project
         error_task_form: state.error_task_form, //error in task form validation
+        active_task: state.active_task, //prop flaged when a task is selected by the user
         getTasks, //get the list of taks of a specific project
-        addTask, //add a new task to an active project
+        addTask, //add a new task to a project selected by the user
         validateTaskForm, //set error_task_form into true if form validations throws an error
         deleteTask, //delete a task using their id
+        flagTaskState, //to flag a task like complete or pending
+        flagActiveTask, //to flag a task as active when a user select it
       }}
     >
       {props.children}

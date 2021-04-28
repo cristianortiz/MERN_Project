@@ -18,3 +18,7 @@ export const ADD_TASK = "ADD_TASK";
 //error in task form validation
 export const VALIDATE_TASK = "VALIDATE_TASK";
 export const DELETE_TASK = "DELETE_TASK";
+//to flag a task like complete or pending
+export const TASK_STATE = "TASK_STATE";
+
+export const ACTIVE_TASK = "ACTIVE_TASK";
