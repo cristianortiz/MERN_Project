@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProjectContext from "../../context/projects/projectContext";
 import TaskContext from "../../context/tasks/taskContext";
 const TaskForm = () => {
@@ -9,7 +9,27 @@ const TaskForm = () => {
 
   //call the taskState to use their props and function through taskContext
   const taskContext = useContext(TaskContext);
-  const { error_task_form, addTask, validateTaskForm, getTasks } = taskContext;
+  const {
+    error_task_form,
+    active_task,
+    addTask,
+    validateTaskForm,
+    getTasks,
+    updateTask,
+    resetActiveTask,
+  } = taskContext;
+
+  //local effect to reload the task form whit the active task to edit it
+  useEffect(() => {
+    //if there is a task flagged as active
+    if (active_task !== null) {
+      handleTask(active_task);
+    } else {
+      handleTask({
+        task_name: "",
+      });
+    }
+  }, [active_task]);
 
   //local State to handle task form input
   const [task, handleTask] = useState({
@@ -30,7 +50,7 @@ const TaskForm = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  //process the form when submit a new task or edit one
   const onSubmitTask = (e) => {
     e.preventDefault();
     //validate form
@@ -38,10 +58,16 @@ const TaskForm = () => {
       validateTaskForm();
       return;
     }
-    //adding the new task to taskState
-    task.id_project = project_selected.id;
-    task.state = false; //all new tasks starts pending
-    addTask(task);
+    //check if the action is add new task or edit
+    if (active_task === null) {
+      //adding the new task to taskState
+      task.id_project = project_selected.id;
+      task.state = false; //all new tasks starts pending
+      addTask(task);
+    } else {
+      updateTask(task);
+      resetActiveTask();
+    }
     //get and filter the tasks who belongs to the active project (this include the new one)
     getTasks(project_selected.id);
     //reset the form input whit local state handle function
@@ -67,7 +93,7 @@ const TaskForm = () => {
           <input
             type="submit"
             className="btn btn-primary btn-submit btn-block"
-            value="Add Task"
+            value={active_task ? "Edit Task" : "Add Task"}
           />
         </div>
       </form>

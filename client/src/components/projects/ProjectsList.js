@@ -12,6 +12,7 @@ const ProjectsList = () => {
   //get projects when ProjectsList comp is loaded trough a useEffect
   useEffect(() => {
     getProjects();
+    //eslint-disable-next-line
   }, []);
 
   //check if projects array is not empty

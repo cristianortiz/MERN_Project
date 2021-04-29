@@ -5,6 +5,8 @@ import {
   VALIDATE_TASK,
   TASK_STATE,
   ACTIVE_TASK,
+  UPDATE_TASK,
+  RESET_ACT,
 } from "../../types";
 
 export default (state, action) => {
@@ -35,7 +37,8 @@ export default (state, action) => {
         //copy all the tasks in the state except for the one who is going to be deleted
         tasks: state.tasks.filter((task) => task.id !== action.payload),
       };
-    case TASK_STATE:
+    case TASK_STATE: //is the same code to edit a task
+    case UPDATE_TASK:
       return {
         ...state,
         tasks: state.tasks.map((task) =>
@@ -48,6 +51,12 @@ export default (state, action) => {
         ...state,
         active_task: action.payload,
       };
+    case RESET_ACT:
+      return {
+        ...state,
+        active_task: null,
+      };
+
     default:
       return state;
   }

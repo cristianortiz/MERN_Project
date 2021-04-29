@@ -1,6 +1,8 @@
-import React, { useReducer } from "react";
+import { useReducer } from "react";
 import TaskReducer from "./taskReducer";
 import TaskContext from "./taskContext";
+import { v4 as uuidv4 } from "uuid";
+
 import {
   ADD_TASK,
   TASKS_PROJECT,
@@ -8,6 +10,8 @@ import {
   DELETE_TASK,
   TASK_STATE,
   ACTIVE_TASK,
+  UPDATE_TASK,
+  RESET_ACT,
 } from "../../types";
 
 const TaskState = (props) => {
@@ -34,7 +38,7 @@ const TaskState = (props) => {
   //dispatch and state
   const [state, dispatch] = useReducer(TaskReducer, initialState);
 
-  //----------Taks Dispatch functions----------------------------
+  //----------Tasks Dispatch functions----------------------------
   //get the tasks related to a specific project
   const getTasks = (id_project) => {
     dispatch({
@@ -45,6 +49,7 @@ const TaskState = (props) => {
 
   //add a new task to an active project
   const addTask = (task) => {
+    task.id = uuidv4();
     dispatch({
       type: ADD_TASK,
       payload: task, //entire task object
@@ -71,12 +76,24 @@ const TaskState = (props) => {
       payload: task,
     });
   };
-
-  //select a task to edit it
+  //flag a task as active when the user click on it
   const flagActiveTask = (task) => {
     dispatch({
       type: ACTIVE_TASK,
       payload: task,
+    });
+  };
+  //update the data of active task when user clicks on edit task
+  const updateTask = (task) => {
+    dispatch({
+      type: UPDATE_TASK,
+      payload: task,
+    });
+  };
+
+  const resetActiveTask = () => {
+    dispatch({
+      type: RESET_ACT,
     });
   };
 
@@ -93,6 +110,8 @@ const TaskState = (props) => {
         deleteTask, //delete a task using their id
         flagTaskState, //to flag a task like complete or pending
         flagActiveTask, //to flag a task as active when a user select it
+        updateTask, //update the data of active task when user clicks on edit task
+        resetActiveTask, //reset active_task prop
       }}
     >
       {props.children}

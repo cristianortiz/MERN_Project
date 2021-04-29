@@ -1,0 +1,23 @@
+{
+  "name": "mern_tasks_server",
+  "version": "1.0.0",
+  "description": "MERN API to MERN project and task app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "htpps://github.com/cristianortiz/MERN_Project"
+  },
+  "author": "Cristian Ortiz Navia",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.6"
+  }
+}

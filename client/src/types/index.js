@@ -20,5 +20,9 @@ export const VALIDATE_TASK = "VALIDATE_TASK";
 export const DELETE_TASK = "DELETE_TASK";
 //to flag a task like complete or pending
 export const TASK_STATE = "TASK_STATE";
-
+//to flag a task as active whrn user click edit on it
 export const ACTIVE_TASK = "ACTIVE_TASK";
+//to update a task
+export const UPDATE_TASK = "UPDATE_TASK";
+//reset the taskState prop active_task
+export const RESET_ACT = "RESET_ACT";
