@@ -7,18 +7,15 @@ const app = express();
 connectDB();
 //enable express.json
 app.use(express.json({ extended: true }));
-
 //app port
 const PORT = process.env.PORT || 4000;
-
 //import routes
-app.use("/api/users", require("./routes/users"));
-
+app.use("/api/users", require("./routes/usersRoutes"));
+app.use("/api/auth", require("./routes/auth"));
 //test main page
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
 //start serve
 app.listen(PORT, () => {
   console.log(`..running on port: ${PORT}`);
