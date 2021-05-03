@@ -11,7 +11,10 @@ app.use(express.json({ extended: true }));
 const PORT = process.env.PORT || 4000;
 //import routes
 app.use("/api/users", require("./routes/usersRoutes"));
-app.use("/api/auth", require("./routes/auth"));
+app.use("/api/auth", require("./routes/authRoutes")); //login users
+//import project routes
+app.use("/api/projects", require("./routes/projectRoutes"));
+
 //test main page
 app.get("/", (req, res) => {
   res.send("Hello World!");

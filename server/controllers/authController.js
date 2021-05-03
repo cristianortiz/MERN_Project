@@ -5,12 +5,11 @@ const jwt = require("jsonwebtoken");
 
 exports.authUser = async (req, res) => {
   const errors = validationResult(req);
-  //use the rules in auth.js
+  //use the rules in authroutes.js
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-
-  //get email and password form request
+  //get email and password from request
   const { email, password } = req.body;
 
   try {
@@ -39,7 +38,6 @@ exports.authUser = async (req, res) => {
       },
       (error, token) => {
         if (error) throw error;
-
         res.json({ token: token });
       }
     );
