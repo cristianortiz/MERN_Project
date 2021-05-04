@@ -6,8 +6,8 @@ const ProjectSchema = mongoose.Schema({
     trim: true,
   },
   creator: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    type: mongoose.Schema.Types.ObjectId, //similar to foreign key
+    ref: "User", //referenced table
   },
   created_at: {
     type: Date,

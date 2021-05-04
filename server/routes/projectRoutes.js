@@ -1,9 +1,29 @@
 const express = require("express");
 const router = express.Router();
-const { createProject } = require("../controllers/projectController");
+const {
+  createProject,
+  getProjects,
+  updateProject,
+} = require("../controllers/projectController");
 const auth = require("../middleware/auth");
 const { check } = require("express-validator");
 
 //creates projects api/projects
-router.post("/", auth, createProject);
+router.post(
+  "/",
+  auth, //validates logged user
+  [check("name", "project name is mandatory").notEmpty()],
+  createProject
+);
+//get projects from logged user api/projects
+router.get("/", auth, getProjects);
+
+//updates a specific project by id
+router.put(
+  "/:id",
+  auth, //validates logged user
+  [check("name", "project name is mandatory").notEmpty()],
+  updateProject
+);
+
 module.exports = router;

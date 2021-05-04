@@ -1,4 +1,4 @@
-//routes to authenticate users
+//routes to authenticate users after login form
 const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
