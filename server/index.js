@@ -14,6 +14,8 @@ app.use("/api/users", require("./routes/usersRoutes"));
 app.use("/api/auth", require("./routes/authRoutes")); //login users
 //import project routes
 app.use("/api/projects", require("./routes/projectRoutes"));
+//import tasks  routes
+app.use("/api/tasks", require("./routes/tasksRoutes"));
 
 //test main page
 app.get("/", (req, res) => {

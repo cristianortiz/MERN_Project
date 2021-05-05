@@ -4,6 +4,7 @@ const {
   createProject,
   getProjects,
   updateProject,
+  deleteProject,
 } = require("../controllers/projectController");
 const auth = require("../middleware/auth");
 const { check } = require("express-validator");
@@ -24,6 +25,14 @@ router.put(
   auth, //validates logged user
   [check("name", "project name is mandatory").notEmpty()],
   updateProject
+);
+
+//delete specific project by id
+router.delete(
+  "/:id",
+  auth, //validates logged user
+
+  deleteProject
 );
 
 module.exports = router;
