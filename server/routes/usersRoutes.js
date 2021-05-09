@@ -9,7 +9,7 @@ router.post(
   "/",
   [
     //to validate data before request going to useController
-    check("name", "name is mandatory").not().isEmpty(),
+    check("user_name", "name is mandatory").not().isEmpty(),
     check("email", "enter a valid email").isEmail(),
     check("password", "minimum of 6 characters").isLength({ min: 6 }),
   ],

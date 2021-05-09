@@ -13,10 +13,10 @@ exports.createUser = async (req, res) => {
   //extracting email and password from request
   const { email, password } = req.body;
   try {
-    //check unique username through moongoose functions
+    //check unique email through moongoose functions
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ msg: "User exists" });
+      return res.status(400).json({ msg: "The user already exists" });
     }
     //create the new user using db defined scheme
     user = new User(req.body);

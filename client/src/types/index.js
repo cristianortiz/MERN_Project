@@ -26,3 +26,18 @@ export const ACTIVE_TASK = "ACTIVE_TASK";
 export const UPDATE_TASK = "UPDATE_TASK";
 //reset the taskState prop active_task
 export const RESET_ACT = "RESET_ACT";
+
+/*---Types for Alerts in login and sign in forms--*/
+export const SHOW_ALERT = "SHOW_ALERT";
+
+export const HIDE_ALERT = "HIDE_ALERT";
+
+/*---Types for user authentication register and login--*/
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_ERROR = "REGISTER_ERROR";
+//to get data of a logged user
+export const GET_USER = "GET_USER";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_ERROR = "LOGIN_ERROR";
+
+export const SESSION_CLOSE = "SESSION_CLOSE";

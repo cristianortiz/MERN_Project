@@ -1,7 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-const Register = () => {
-  //local state data inputs in login form
+import alertsContext from "../../context/alerts/alertsContext";
+import authContext from "../../context/auth/authContext";
+const Register = (props) => {
+  //get functions and props from AlertsState through context
+  const AlertsContext = useContext(alertsContext);
+  const { alert, showAlert } = AlertsContext;
+
+  //get functions and props from authState through context
+  const AuthContext = useContext(authContext);
+  const { message, auth, registerUser } = AuthContext;
+
+  //in case of user was register, logged or attempt or duplicated register
+  useEffect(() => {
+    if (auth) {
+      //user register or authenticated, send it to projects
+      props.history.push("/projects");
+    }
+    if (message) {
+      //show the alert object
+      showAlert(message.msg, message.category);
+    }
+  }, [message, auth, props.history]);
+
+  //local state data inputs in register form
   const [register_data, handleRegister] = useState({
     email: "",
     password: "",
@@ -18,14 +40,35 @@ const Register = () => {
   //submit login form when user sign in
   const submitRegisterForm = (e) => {
     e.preventDefault();
-
     //form valitadtion
-
+    if (
+      user_name.trim() === "" ||
+      email.trim() === "" ||
+      password.trim() === "" ||
+      password2.trim() === ""
+    ) {
+      showAlert("All fields are mandatory", "alert-error");
+      return;
+    }
     //passwords must be equals and 6 characters minimum
+    if (password.length < 6) {
+      showAlert("Password must have 6 characters minimum", "alert-error");
+      return;
+    }
+    if (password !== password2) {
+      showAlert("Passwords must be equals", "alert-error");
+      return;
+    }
+
+    //send to dispatch in authState
+    registerUser({ user_name, email, password });
   };
 
   return (
     <div className="form-user">
+      {alert ? (
+        <div className={`alert ${alert.category}`}>{alert.msg}</div>
+      ) : null}
       <div className="container-form shadow-dark">
         <h1>Create New Account</h1>
 
@@ -67,7 +110,7 @@ const Register = () => {
             <label htmlFor="password2">Confirm Password</label>
             <input
               value={password2}
-              type="password2"
+              type="password"
               id="password2"
               name="password2"
               placeholder="Repeate Your Password"
