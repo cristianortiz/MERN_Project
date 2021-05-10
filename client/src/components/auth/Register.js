@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import alertsContext from "../../context/alerts/alertsContext";
 import authContext from "../../context/auth/authContext";
+
 const Register = (props) => {
   //get functions and props from AlertsState through context
   const AlertsContext = useContext(alertsContext);
@@ -17,6 +18,7 @@ const Register = (props) => {
       //user register or authenticated, send it to projects
       props.history.push("/projects");
     }
+    //if there is a message object, an error in register has ocurred
     if (message) {
       //show the alert object
       showAlert(message.msg, message.category);

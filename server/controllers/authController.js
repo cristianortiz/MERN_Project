@@ -3,6 +3,7 @@ const bcryptjs = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
+//check the user an logged into system by jwt
 exports.authUser = async (req, res) => {
   const errors = validationResult(req);
   //use the rules in authroutes.js
@@ -43,5 +44,17 @@ exports.authUser = async (req, res) => {
     );
   } catch (error) {
     console.log(error);
+  }
+};
+
+//get the data of an authenticated user
+exports.authenticatedUser = async (req, res) => {
+  try {
+    //get the authenticated user data by id searching in BD
+    const user = await User.findById(req.user.id).select("-password");
+    res.json({ user });
+  } catch (error) {
+    console.log.length(error);
+    res.status(500).json({ msg: "An error occurs" });
   }
 };
