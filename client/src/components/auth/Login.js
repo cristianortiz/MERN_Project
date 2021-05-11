@@ -12,8 +12,8 @@ const Login = (props) => {
   const AuthContext = useContext(authContext);
   const { message, auth, loginUser } = AuthContext;
 
-  //in case of wrong password or user does´nt exists
   useEffect(() => {
+    //in case of wrong password or user does´nt exists
     if (auth) {
       //user register or authenticated, send it to projects
       props.history.push("/projects");

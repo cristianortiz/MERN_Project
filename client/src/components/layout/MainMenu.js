@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import authContext from "../../context/auth/authContext";
 const MainMenu = () => {
+  //extract user data from authState through authContext
+  const AuthContext = useContext(authContext);
+  const { user_data, authenticatedUser, signOutUser } = AuthContext;
+
+  useEffect(() => {
+    authenticatedUser();
+  }, []);
+
   return (
     <header className="app-header">
-      <p className="name-user">
-        Hello <span>John Wayne</span>
-      </p>
+      {user_data ? (
+        <p className="name-user">
+          Hello <span>{user_data.user_name}</span>
+        </p>
+      ) : null}
+
       <nav className="nav-principal">
-        <a href="#!">Sign Out</a>
+        <button
+          className="btn btn-blank session-close"
+          onClick={() => signOutUser()}
+        >
+          Sign Out
+        </button>
       </nav>
     </header>
   );

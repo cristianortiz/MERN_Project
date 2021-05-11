@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import authContext from "../../context/auth/authContext";
 import MainMenu from "../layout/MainMenu";
 import Sidebar from "../layout/Sidebar";
 import TaskForm from "../tasks/TaskForm";
 import TasksList from "../tasks/TasksList";
+
 const Projects = () => {
+  //extract user data from authState through authContext
+  const AuthContext = useContext(authContext);
+  const { authenticatedUser } = AuthContext;
+  //to keep the user data avaliable similar to sessions or cookies when the app is reloaded
+  useEffect(() => {
+    authenticatedUser();
+  }, []);
+
   return (
     <div className="container-app">
       <Sidebar />

@@ -6,6 +6,7 @@ import {
   LOGIN_SUCCESS,
   REGISTER_ERROR,
   REGISTER_SUCCESS,
+  SESSION_CLOSE,
 } from "../../types";
 import authContext from "./authContext";
 import authReducer from "./authReducer";
@@ -13,10 +14,11 @@ import tokenAuth from "../../config/tokenAuth";
 
 const AuthState = (props) => {
   const initialState = {
-    token: localStorage.getItem("token"),
-    auth: null,
-    user_data: null,
-    message: null,
+    token: localStorage.getItem("token"), //user token generated in backend
+    auth: null, //to flag a user as logged in the app
+    user_data: null, //object whit the user data from BD
+    message: null, //object to create and alert
+    loading: true,
   };
   const [state, dispatch] = useReducer(authReducer, initialState);
 
@@ -46,9 +48,9 @@ const AuthState = (props) => {
         payload: alert,
       });
     }
-  }; //end registerUSer
+  }; //--end registerUSer--
 
-  //returns the authenticated user data
+  //add the authenticated user data in user_data state prop
   const authenticatedUser = async () => {
     //get token from local storage
     const token = localStorage.getItem("token");
@@ -70,7 +72,7 @@ const AuthState = (props) => {
         type: LOGIN_ERROR,
       });
     }
-  }; //end authetincatedUser
+  }; //--end authetincatedUser--
 
   //when a registered user login in the app
   const loginUser = async (data) => {
@@ -83,6 +85,7 @@ const AuthState = (props) => {
       });
       //get data of a correct logged user and their token
       authenticatedUser();
+      //if login fails catch the error and show and alert object
     } catch (error) {
       //console.log(error.response.data.msg);
       const alert = {
@@ -94,6 +97,13 @@ const AuthState = (props) => {
         payload: alert,
       });
     }
+  }; //--end loginUser--
+
+  //close user 'session'
+  const signOutUser = () => {
+    dispatch({
+      type: SESSION_CLOSE,
+    });
   };
 
   return (
@@ -103,8 +113,11 @@ const AuthState = (props) => {
         auth: state.auth,
         user_data: state.user_data,
         message: state.message,
+        loading: state.loading,
         registerUser,
         loginUser,
+        authenticatedUser,
+        signOutUser,
       }}
     >
       {props.children}
