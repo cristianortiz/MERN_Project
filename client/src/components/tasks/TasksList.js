@@ -3,6 +3,7 @@ import ProjectContext from "../../context/projects/projectContext";
 import TaskContext from "../../context/tasks/taskContext";
 import SingleTask from "./SingleTask";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+
 const TasksList = () => {
   //using projectContext to use their props and functions
   const projectsContext = useContext(ProjectContext);
@@ -19,9 +20,9 @@ const TasksList = () => {
   const [project_selected] = active_project;
 
   //function in onClick event
-  const onclickDelProject = () => {
+  const btnDeleteProject = () => {
     //call the projectState function to delete a project from state
-    deleteProject(project_selected.id);
+    deleteProject(project_selected._id);
   };
 
   return (
@@ -41,7 +42,7 @@ const TasksList = () => {
         )}
       </ul>
       <button
-        onClick={onclickDelProject}
+        onClick={btnDeleteProject}
         type="button"
         className="btn btn-delete"
       >

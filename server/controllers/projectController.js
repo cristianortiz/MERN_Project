@@ -42,11 +42,11 @@ exports.updateProject = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
   //extract project data from request
-  const { name } = req.body;
+  const { proj_name } = req.body;
   const newProject = {}; //posible updated fields to update
   //check if there is other projects fields updated
-  if (name) {
-    newProject.name = name;
+  if (proj_name) {
+    newProject.proj_name = proj_name;
   }
 
   try {

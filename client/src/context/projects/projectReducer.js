@@ -5,6 +5,7 @@ import {
   VALIDATE_FORM,
   ACTIVE_PROJECT,
   DELETE_PROJECT,
+  ERROR_PROJECT,
 } from "../../types"; //type to link the projectState whit ProjectReducer
 
 export default (state, action) => {
@@ -37,7 +38,7 @@ export default (state, action) => {
         ...state,
         //filter  if the project id to flag as active is in projects state array
         active_project: state.projects.filter(
-          (project) => project.id === action.payload //state the project data in action_project prop
+          (project) => project._id === action.payload //state the project data in action_project prop
         ),
       };
 
@@ -47,10 +48,16 @@ export default (state, action) => {
         //filter  if the project id flagged to delete is in the projects state array
         projects: state.projects.filter(
           //search and copy all the projects in the state except the one selected to delete
-          (project) => project.id !== action.payload
+          (project) => project._id !== action.payload
         ),
         active_project: null, //reset the active_project flag
       };
+    case ERROR_PROJECT:
+      return {
+        ...state,
+        message: action.payload, //the alert object whit the error msg in it
+      };
+
     default:
       return state;
   }

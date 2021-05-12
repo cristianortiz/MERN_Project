@@ -19,7 +19,7 @@ const SingleProject = ({ project }) => {
   return (
     <li>
       <button
-        onClick={() => getActiveProject(project.id)}
+        onClick={() => getActiveProject(project._id)}
         type="button"
         className="btn btn-blank"
       >

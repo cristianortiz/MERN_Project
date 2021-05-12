@@ -13,7 +13,7 @@ const { check } = require("express-validator");
 router.post(
   "/",
   auth, //validates logged user
-  [check("name", "project name is mandatory").notEmpty()],
+  [check("proj_name", "project name is mandatory").notEmpty()],
   createProject
 );
 //get projects from logged user api/projects
@@ -23,7 +23,7 @@ router.get("/", auth, getProjects);
 router.put(
   "/:id",
   auth, //validates logged user
-  [check("name", "project name is mandatory").notEmpty()],
+  [check("proj_name", "project name is mandatory").notEmpty()],
   updateProject
 );
 

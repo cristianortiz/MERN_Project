@@ -6,32 +6,28 @@ import {
   VALIDATE_FORM,
   ACTIVE_PROJECT,
   DELETE_PROJECT,
+  ERROR_PROJECT,
 } from "../../types";
 import projectContext from "./projectContext";
 import projectReducer from "./projectReducer";
-import { v4 as uuidv4 } from "uuid";
+import axiosClient from "../../config/axios";
 
 //custom useState hook to handle props and functions relative to Projects
 const ProjectState = (props) => {
-  const projects = [
-    { id: 1, proj_name: "Project 1" },
-    { id: 2, proj_name: "Project 2" },
-    { id: 3, proj_name: "Project 3" },
-  ];
   const initialState = {
     //test projects array
     projects: [],
     show_form: false, //to show or hide the new Project form in NewProjectForm component
     form_error: false, //to show and error msg in form validation
     active_project: null, //id of a project flag it as active
+    message: null, //alert object to show error
   };
 
   //dispatch to executes actions whit useReducer hook relatives to Projects
   const [state, dispatch] = useReducer(projectReducer, initialState);
 
-  //CRUD actions, dipatch calls reducer methods to change state
-
-  //function to set show_from prop and show the new project form using a dispatch and type
+  //---CRUD actions, dipatch calls reducer methods to change state---
+  // to set show_form prop and show the new project form using a dispatch and type
   const showProjectForm = () => {
     dispatch({
       //type to handle show_form state prop, does not need a payload
@@ -39,24 +35,49 @@ const ProjectState = (props) => {
     });
   };
   //function to get projects list using reducer dispatch and a type
-  const getProjects = () => {
-    dispatch({
-      //type to handle show_form state prop
-      type: GET_PROJECTS,
-      payload: projects, //the function param is the payload of dispatcher
-    });
+  const getProjects = async () => {
+    try {
+      const response = await axiosClient.get("/api/projects");
+      console.log(response);
+      dispatch({
+        //type to handle show_form state prop
+        type: GET_PROJECTS,
+        payload: response.data.user_projects, //the function param is the payload of dispatcher
+      });
+    } catch (error) {
+      const alert = {
+        msg: "An error occurs",
+        category: "error",
+      };
+      dispatch({
+        type: ERROR_PROJECT,
+        payload: alert,
+      });
+    }
   };
 
   //function to add a new project in projectState through the newproject form
-  const addProject = (project) => {
-    //add an id to project data
-    project.id = uuidv4();
+  const addProject = async (project) => {
     //console.log(project.proj_name + " " + project.id);
     //insert the project data into the projectState arrays of projects whit dispatch function
-    dispatch({
-      type: ADD_PROJECT,
-      payload: project, //the function param is the payload of dispatcher
-    });
+    try {
+      const response = await axiosClient.post("/api/projects", project);
+      //console.log(response);
+      //add project data also in the state
+      dispatch({
+        type: ADD_PROJECT,
+        payload: response.data, //the function param is the payload of dispatcher
+      });
+    } catch (error) {
+      const alert = {
+        msg: "An error occurs",
+        category: "error",
+      };
+      dispatch({
+        type: ERROR_PROJECT,
+        payload: alert,
+      });
+    }
   };
 
   //show error when the form is validated
@@ -75,11 +96,23 @@ const ProjectState = (props) => {
   };
 
   //delete a project by id
-  const deleteProject = (project_id) => {
-    dispatch({
-      type: DELETE_PROJECT,
-      payload: project_id,
-    });
+  const deleteProject = async (project_id) => {
+    try {
+      const response = await axiosClient.delete(`/api/projects/${project_id}`);
+      dispatch({
+        type: DELETE_PROJECT,
+        payload: project_id,
+      });
+    } catch (error) {
+      const alert = {
+        msg: "An error occurs",
+        category: "error",
+      };
+      dispatch({
+        type: ERROR_PROJECT,
+        payload: alert,
+      });
+    }
   };
   //return the context provider to get access to the other components related whit Projects to projectState
   return (
@@ -89,6 +122,7 @@ const ProjectState = (props) => {
         show_form: state.show_form, //project state prop  to toggle show/hide new form project
         form_error: state.form_error, //toggle true/false if there is a form validation error
         active_project: state.active_project, //id of a project flag it as active, after that, states the selected project data
+        message: state.message,
         showProjectForm, // function to handle show_form prop
         getProjects, //function to get projects from BD and populates projects list
         addProject, //to add a new project into state and later in BD

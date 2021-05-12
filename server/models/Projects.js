@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const ProjectSchema = mongoose.Schema({
-  name: {
+  proj_name: {
     type: String,
     required: true,
     trim: true,

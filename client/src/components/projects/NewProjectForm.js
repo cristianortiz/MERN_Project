@@ -5,13 +5,8 @@ const NewProjectForm = () => {
   //get projectState direct access through ProjectContext for props and functions
   const projectsContext = useContext(ProjectContext);
   //destructuring props and functions from ProjectState using projectContext
-  const {
-    show_form,
-    form_error,
-    showProjectForm,
-    addProject,
-    showError,
-  } = projectsContext;
+  const { show_form, form_error, showProjectForm, addProject, showError } =
+    projectsContext;
 
   //local State to handle new project form input field
   const [project, handleProject] = useState({
@@ -71,7 +66,7 @@ const NewProjectForm = () => {
             />
             <input
               type="submit"
-              className="btn btn-block btn-block"
+              className="btn btn-block btn-primary"
               value="Add Project"
             />
           </form>
