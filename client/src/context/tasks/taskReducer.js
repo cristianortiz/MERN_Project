@@ -14,16 +14,14 @@ export default (state, action) => {
     case TASKS_PROJECT:
       return {
         ...state, //copy of actual taskState
-        tasks_project: state.tasks.filter(
-          //filter in all tasks those who belongs to a specific id project and put them in task_project state
-          (task) => task.id_project === action.payload
-        ),
+        //tasks of a specific project retrieved from BD
+        tasks_project: action.payload,
       };
     case ADD_TASK:
       return {
         ...state,
         //add the new task to the state list of all tasks, later will be assigned to a project
-        tasks: [action.payload, ...state.tasks], //to animation purpose add the new task in state first position
+        tasks_project: [action.payload, ...state.tasks_project], //to animation purpose add the new task in state first position
         error_task_form: false, //reset the form validation in taskState
       };
     case VALIDATE_TASK:
@@ -35,15 +33,17 @@ export default (state, action) => {
       return {
         ...state,
         //copy all the tasks in the state except for the one who is going to be deleted
-        tasks: state.tasks.filter((task) => task.id !== action.payload),
+        tasks_project: state.tasks_project.filter(
+          (task) => task._id !== action.payload
+        ),
       };
-    case TASK_STATE: //is the same code to edit a task
+
     case UPDATE_TASK:
       return {
         ...state,
-        tasks: state.tasks.map((task) =>
+        tasks_project: state.tasks_project.map((task) =>
           //search in all tasks, find the one who match the id and replace the whole task data
-          task.id === action.payload.id ? action.payload : task
+          task._id === action.payload._id ? action.payload : task
         ),
       };
     case ACTIVE_TASK:

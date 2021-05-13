@@ -4,7 +4,7 @@ import TaskContext from "../../context/tasks/taskContext";
 const SingleTask = ({ task }) => {
   //get TaskState to use their props and funcionts through TaskContext
   const taskContext = useContext(TaskContext);
-  const { deleteTask, getTasks, flagTaskState, flagActiveTask } = taskContext;
+  const { deleteTask, getTasks, updateTask, flagActiveTask } = taskContext;
 
   const projectsContext = useContext(ProjectContext);
   const { active_project } = projectsContext;
@@ -13,23 +13,24 @@ const SingleTask = ({ task }) => {
 
   //executes when the user clicks the delete task button
   const onClickDelete = (id) => {
-    deleteTask(id);
-    getTasks(project.id);
+    //besides the task id the backend also need the id project to check and delete with safety
+    deleteTask(id, project._id);
+    getTasks(project._id);
   };
 
   //executes when the user clicks the complete or pending task button
   const changeTaskState = (task) => {
     if (task.state) {
-      task.state = false;
+      task.state = "false";
     } else {
       task.state = true;
     }
     //flag and add to state the new state of the task
-    flagTaskState(task);
+    updateTask(task);
   };
 
   const flagTask = (task) => {
-    flagActiveTask(task);
+    updateTask(task);
   };
 
   return (
@@ -63,7 +64,7 @@ const SingleTask = ({ task }) => {
           Edit
         </button>
         <button
-          onClick={() => onClickDelete(task.id)}
+          onClick={() => onClickDelete(task._id)}
           tyoe="button"
           className="btn btn-secondary"
         >

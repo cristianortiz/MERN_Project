@@ -1,7 +1,6 @@
 import { useReducer } from "react";
 import TaskReducer from "./taskReducer";
 import TaskContext from "./taskContext";
-import { v4 as uuidv4 } from "uuid";
 
 import {
   ADD_TASK,
@@ -13,24 +12,12 @@ import {
   UPDATE_TASK,
   RESET_ACT,
 } from "../../types";
+import axiosClient from "../../config/axios";
 
 const TaskState = (props) => {
   const initialState = {
-    tasks: [
-      { id: 1, task_name: "Task 1", state: true, id_project: 1 },
-      { id: 2, task_name: "Task 2", state: true, id_project: 2 },
-      { id: 3, task_name: "Task 3", state: false, id_project: 3 },
-      { id: 4, task_name: "Task 23", state: false, id_project: 4 },
-      { id: 5, task_name: "Task 33", state: false, id_project: 3 },
-      { id: 6, task_name: "Task 43", state: false, id_project: 2 },
-      { id: 7, task_name: "Task 6", state: false, id_project: 1 },
-      { id: 8, task_name: "Task 7", state: false, id_project: 4 },
-      { id: 9, task_name: "Task 9", state: false, id_project: 2 },
-      { id: 10, task_name: "Task 5", state: false, id_project: 1 },
-      { id: 11, task_name: "Task 11", state: false, id_project: 4 },
-      { id: 12, task_name: "Task 12", state: false, id_project: 3 },
-    ],
-    tasks_project: null,
+    //tasks: [],
+    tasks_project: [],
     error_task_form: false,
     active_task: null,
   };
@@ -40,20 +27,33 @@ const TaskState = (props) => {
 
   //----------Tasks Dispatch functions----------------------------
   //get the tasks related to a specific project
-  const getTasks = (id_project) => {
-    dispatch({
-      type: TASKS_PROJECT,
-      payload: id_project, //id will be the action.payload value in taskReducer
-    });
+  const getTasks = async (project_id) => {
+    try {
+      const response = await axiosClient.get("/api/tasks", {
+        params: { project_id },
+      });
+      console.log(response);
+      dispatch({
+        type: TASKS_PROJECT,
+        payload: response.data.tasks, //id will be the action.payload value in taskReducer
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //add a new task to an active project
-  const addTask = (task) => {
-    task.id = uuidv4();
-    dispatch({
-      type: ADD_TASK,
-      payload: task, //entire task object
-    });
+  const addTask = async (task) => {
+    try {
+      const response = await axiosClient.post("/api/tasks", task);
+      console.log(response);
+      dispatch({
+        type: ADD_TASK,
+        payload: task, //entire task object
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //set error_task_form into true if form validations throws an error
@@ -63,19 +63,22 @@ const TaskState = (props) => {
     });
   };
 
-  const deleteTask = (id_task) => {
-    dispatch({
-      type: DELETE_TASK,
-      payload: id_task,
-    });
+  const deleteTask = async (id_task, project_id) => {
+    try {
+      await axiosClient.delete(`/api/tasks/${id_task}`, {
+        params: { project_id },
+      });
+
+      dispatch({
+        type: DELETE_TASK,
+        payload: id_task,
+      });
+    } catch (error) {
+      console.log(error);
+      //console.log("project_id:" + project_id);
+    }
   };
-  //to flag a task like complete or pending when the clicks pending or complete
-  const flagTaskState = (task) => {
-    dispatch({
-      type: TASK_STATE,
-      payload: task,
-    });
-  };
+
   //flag a task as active when the user click on it
   const flagActiveTask = (task) => {
     dispatch({
@@ -84,11 +87,18 @@ const TaskState = (props) => {
     });
   };
   //update the data of active task when user clicks on edit task
-  const updateTask = (task) => {
-    dispatch({
-      type: UPDATE_TASK,
-      payload: task,
-    });
+  const updateTask = async (task) => {
+    try {
+      const response = await axiosClient.put(`/api/tasks/${task._id}`, task);
+      console.log(task);
+      dispatch({
+        type: UPDATE_TASK,
+        payload: response.data.task,
+      });
+      console.log(response.data.task);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const resetActiveTask = () => {
@@ -100,7 +110,7 @@ const TaskState = (props) => {
   return (
     <TaskContext.Provider
       value={{
-        tasks: state.tasks, //all the tasks created
+        //tasks: state.tasks, //all the tasks created
         tasks_project: state.tasks_project, //tasks of a specific project
         error_task_form: state.error_task_form, //error in task form validation
         active_task: state.active_task, //prop flaged when a task is selected by the user
@@ -108,9 +118,8 @@ const TaskState = (props) => {
         addTask, //add a new task to a project selected by the user
         validateTaskForm, //set error_task_form into true if form validations throws an error
         deleteTask, //delete a task using their id
-        flagTaskState, //to flag a task like complete or pending
         flagActiveTask, //to flag a task as active when a user select it
-        updateTask, //update the data of active task when user clicks on edit task
+        updateTask, //update the data of active task when user clicks on edit task or state tag
         resetActiveTask, //reset active_task prop
       }}
     >

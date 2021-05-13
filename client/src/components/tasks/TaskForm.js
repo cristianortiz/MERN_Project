@@ -61,15 +61,14 @@ const TaskForm = () => {
     //check if the action is add new task or edit
     if (active_task === null) {
       //adding the new task to taskState
-      task.id_project = project_selected.id;
-      task.state = false; //all new tasks starts pending
+      task.project_id = project_selected._id;
       addTask(task);
     } else {
       updateTask(task);
       resetActiveTask();
     }
     //get and filter the tasks who belongs to the active project (this include the new one)
-    getTasks(project_selected.id);
+    getTasks(project_selected._id);
     //reset the form input whit local state handle function
     handleTask({
       task_name: "",
