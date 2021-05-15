@@ -10,6 +10,7 @@ const PrivateRoute = ({ component: Component, ...props }) => {
   //to keep the auth prop as true if app is reloaded
   useEffect(() => {
     authenticatedUser();
+    //eslint-disable-next-line
   }, []);
 
   return (

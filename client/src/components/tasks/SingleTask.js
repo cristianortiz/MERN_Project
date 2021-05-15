@@ -4,7 +4,7 @@ import TaskContext from "../../context/tasks/taskContext";
 const SingleTask = ({ task }) => {
   //get TaskState to use their props and funcionts through TaskContext
   const taskContext = useContext(TaskContext);
-  const { deleteTask, getTasks, updateTask, flagActiveTask } = taskContext;
+  const { deleteTask, getTasks, updateTask } = taskContext;
 
   const projectsContext = useContext(ProjectContext);
   const { active_project } = projectsContext;
@@ -21,7 +21,7 @@ const SingleTask = ({ task }) => {
   //executes when the user clicks the complete or pending task button
   const changeTaskState = (task) => {
     if (task.state) {
-      task.state = "false";
+      task.state = false;
     } else {
       task.state = true;
     }

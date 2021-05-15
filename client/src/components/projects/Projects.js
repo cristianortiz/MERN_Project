@@ -12,6 +12,7 @@ const Projects = () => {
   //to keep the user data avaliable similar to sessions or cookies when the app is reloaded
   useEffect(() => {
     authenticatedUser();
+    // eslint-disable-next-line
   }, []);
 
   return (

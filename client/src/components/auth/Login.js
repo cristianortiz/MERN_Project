@@ -23,6 +23,7 @@ const Login = (props) => {
       //show the alert object
       showAlert(message.msg, message.category);
     }
+    // eslint-disable-next-line
   }, [message, auth, props.history]);
 
   //---local state data inputs in login form---

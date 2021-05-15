@@ -7,7 +7,8 @@ const MainMenu = () => {
 
   useEffect(() => {
     authenticatedUser();
-  }, []);
+    // eslint-disable-next-line
+  }, [authenticatedUser]);
 
   return (
     <header className="app-header">
